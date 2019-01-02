@@ -31,7 +31,7 @@ public class GridFragment extends Fragment {
         View view = inflater.inflate(R.layout.grid_fragment, container, false);
 
         GridView gridview = (GridView) view.findViewById(R.id.gridview);
-        gridview.setAdapter(new ImageAdapter(getContext()));
+        gridview.setAdapter(new NoteAdapter(getContext()));
 
         gridview.setOnItemClickListener(new OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View v,

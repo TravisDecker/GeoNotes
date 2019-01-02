@@ -5,11 +5,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 
-class ImageAdapter extends BaseAdapter {
+class NoteAdapter extends BaseAdapter {
 
     private Context context;
 
-    public ImageAdapter(Context c) {
+    public NoteAdapter(Context c) {
         context = c;
     }
 
