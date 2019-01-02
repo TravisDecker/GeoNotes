@@ -1,6 +1,7 @@
 package com.straylense.geonotes;
 
 import android.arch.persistence.db.SupportSQLiteDatabase;
+import android.arch.persistence.room.Database;
 import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
@@ -8,6 +9,11 @@ import android.support.annotation.NonNull;
 
 import java.util.concurrent.Executors;
 
+@Database(
+        entities = {NoteEntity.class},
+        version = 1,
+        exportSchema = false
+)
 public abstract class DataBase extends RoomDatabase {
 
     private static final String DB_NAME = "database";
