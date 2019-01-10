@@ -1,5 +1,6 @@
 package com.straylense.geonotes;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -9,11 +10,32 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
+
+    List<NoteEntity> notes;
+    private DataBase database;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        setupUI();
+
+        database = DataBase.getInstance(this);
+        queryNotes(new QueryCallback() {
+            @Override
+            public void consume(List notes) {
+                MainActivity.this.notes = notes;
+            }
+        });
+
+        GridFragment gridFragment = GridFragment.newInstance();
+        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, gridFragment).commit();
+    }
+
+    private void setupUI() {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -26,9 +48,6 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
-
-        GridFragment gridFragment = GridFragment.newInstance();
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, gridFragment).commit();
     }
 
     @Override
@@ -52,4 +71,39 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+
+    public List<NoteEntity> getNotes() {
+        return notes;
+    }
+
+    public void queryNotes(QueryCallback callback) {
+        new QueryTask(callback).execute();
+    }
+
+    public interface QueryCallback<T> {
+        void consume(List<NoteEntity> notes);
+    }
+
+
+    public class QueryTask extends AsyncTask<Void, Void, List<NoteEntity>> {
+
+        private QueryCallback callback;
+
+        public QueryTask(QueryCallback callback) {
+            this.callback = callback;
+        }
+
+        @Override
+        protected List<NoteEntity> doInBackground(Void... voids) {
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(List<NoteEntity> notes) {
+            if (callback != null) {
+                callback.consume(notes);
+            }
+        }
+    }
+
 }
