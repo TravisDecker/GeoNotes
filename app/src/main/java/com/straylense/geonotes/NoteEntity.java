@@ -1,7 +1,13 @@
 package com.straylense.geonotes;
 
-public class NoteEntity {
+import android.arch.persistence.room.Entity;
+import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
+@Entity
+public class NoteEntity {
+    @PrimaryKey
+    @NonNull
     private String title;
     private String description;
     private String address;

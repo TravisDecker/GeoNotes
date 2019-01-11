@@ -18,7 +18,7 @@ import java.util.List;
 public class GridFragment extends Fragment {
 
     static GridFragment fragment;
-    static List<NoteEntity> notes;
+    List<NoteEntity> notes;
 
     public static GridFragment newInstance() {
 
@@ -31,6 +31,7 @@ public class GridFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        this.notes = MainActivity.getInstance().getNotes();
     }
 
     @Nullable
@@ -39,7 +40,7 @@ public class GridFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.grid_fragment, container, false);
 
-        ArrayAdapter<NoteEntity> adapter = new ArrayAdapter<>(getActivity(), R.layout.grid_fragment, notes);
+        ArrayAdapter<NoteEntity> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_list_item_1, notes);
 
         GridView gridview = (GridView) view.findViewById(R.id.gridview);
         gridview.setAdapter(adapter);
